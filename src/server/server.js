@@ -45,7 +45,8 @@ app.post('/habits/:id/done', (req, res) => {
   if (!habit){
     return res.status(404).json({error: 'Habit not found'})
   }
-  const today = new Date().toString.split('T')[0];
+  const today = new Date().toISOString().split('T')[0];
+  
   habit.dates.push(today);
   res.json(habit);
 })
