@@ -29,7 +29,7 @@ app.get('/habits/:id', (req, res) => {
 //Adding habit
 app.post('/habits', (req, res) => {
   const newHabit = {
-    id: habits.length-1,
+    id: habits.length+1,
     name: req.body.name,
     dates: []
   }
@@ -42,14 +42,20 @@ app.post('/habits', (req, res) => {
 app.post('/habits/:id/done', (req, res) => {
   const habit = habits.find(h => h.id === parseInt(req.params.id));
 
-  if (!habit){
-    return res.status(404).json({error: 'Habit not found'})
+  if (!habit) {
+    return res.status(404).json({ error: 'Habit not found' });
   }
+
   const today = new Date().toISOString().split('T')[0];
-  
+  const lastDate = habit.dates[habit.dates.length - 1];
+
+  if (lastDate === today) {
+    return res.status(400).json({ error: 'Habit already marked done today' });
+  }
+
   habit.dates.push(today);
   res.json(habit);
-})
+});
 
 // Run
 app.listen(3000, () => {

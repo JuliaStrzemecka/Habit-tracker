@@ -2,6 +2,7 @@ async function loadHabits() {
     const res = await fetch('http://localhost:3000/habits');
     const habits = await res.json();
 
+    const today = new Date().toISOString().split('T')[0];
     const list = document.getElementById('habits-list');
     list.innerHTML = "";
 
@@ -11,8 +12,12 @@ async function loadHabits() {
         li.setAttribute('habit-id', habit.id)
 
         btn = document.createElement('button');
-        btn.addEventListener('click', markDone);
         btn.innerHTML="done";
+        btn.disabled=true;
+        if(habit.dates[habit.dates.length-1] !== today){
+          btn.addEventListener('click', markDone);
+          btn.disabled=false;
+      }
 
         li.appendChild(btn);
 
