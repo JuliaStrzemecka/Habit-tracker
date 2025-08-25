@@ -10,6 +10,9 @@ async function loadHabits() {
         const li = document.createElement('li');
         li.innerHTML = `<p>${habit.name}</p>`;
         li.setAttribute('habit-id', habit.id)
+        li.addEventListener('click', () => {
+          window.location.href = `stats.html?id=${habit.id}`;
+        });
 
         btn = document.createElement('button');
         btn.innerHTML="done";
@@ -43,5 +46,22 @@ async function markDone(){
   loadHabits();
 }
 
-document.getElementById('add-habit').addEventListener('click', addHabit);
-loadHabits();
+async function displayHabitDetails(){
+  const params = new URLSearchParams(window.location.search);
+  const habitID = params.get('id');
+
+  const res = await fetch(`http://localhost:3000/habits/${habitID}`);
+  const habit = await res.json();
+
+  document.getElementById('habit-name').innerHTML = habit.name;  
+}
+
+const path = window.location.pathname;
+
+if (path.endsWith("index.html")) {
+  loadHabits();
+}
+
+if (path.endsWith("stats.html")) {
+  displayHabitDetails();
+}
