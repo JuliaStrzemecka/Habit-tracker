@@ -2,7 +2,6 @@ async function loadHabits() {
     const res = await fetch('http://localhost:3000/habits');
     const habits = await res.json();
 
-    const today = new Date().toISOString().split('T')[0];
     const list = document.getElementById('habits-list');
     list.innerHTML = "";
 
@@ -17,7 +16,7 @@ async function loadHabits() {
         btn = document.createElement('button');
         btn.innerHTML="done";
         btn.disabled=true;
-        if(habit.dates[habit.dates.length-1] !== today){
+        if(habit.dates[habit.dates.length-1] !== today.toISOString().split('T')[0]){
           btn.addEventListener('click', markDone);
           btn.disabled=false;
       }
@@ -54,9 +53,65 @@ async function displayHabitDetails(){
   const habit = await res.json();
 
   document.getElementById('habit-name').innerHTML = habit.name;  
+
+  //////////////////////////RENDERING CALENDAR
+  const calendar = document.getElementById("calendar");
+  
+  const prevBtn = document.createElement('div');
+  prevBtn.classList.add('prev-btn');
+  const nextBtn = document.createElement('div');
+  nextBtn.classList.add('next-btn');
+  const calendarMonth = document.createElement('div');
+  calendarMonth.classList.add('calendar-month');
+
+  const calendarHeader = document.createElement('div');
+  calendarHeader.classList.add('calendarHeader');
+  calendarHeader.append(prevBtn);
+  calendarHeader.append(calendarMonth);
+  calendarHeader.append(nextBtn);
+  
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const calendarDays = document.createElement('div');
+  calendarDays.classList.add('calendar-days');
+  for(let i = 0; i<7; i++){
+    var day = document.createElement('div');
+    day.classList.add('calendar-day');
+    day.innerHTML = days[i];
+
+    calendarDays.append(day);
+  }
+
+  const calendarDates = document.createElement('div');
+  const t = new Date(today.getFullYear(), today.getMonth(), 1);
+  const firstDay = t.getDay()
+  console.log(firstDay);
+  for (let i = 0; i<firstDay; i++){
+    const date = document.createElement('div');
+    date.classList.add('calendar-date');
+    date.innerHTML = 'x';
+
+    calendarDates.append(date);
+  }
+   
+  const daysInMonth = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
+  const j = daysInMonth + firstDay - 1;
+  for(let i = firstDay-1; i<j; i++){
+      const date = document.createElement("div");
+      date.innerText = i - firstDay + 2;
+      date.dayNr = i - firstDay + 2;
+      date.classList.add("calendar-date");
+
+      calendarDates.appendChild(date);
+  }
+
+  calendar.append(calendarHeader);
+  calendar.append(calendarDays);
+  calendar.append(calendarDates);
 }
 
 const path = window.location.pathname;
+
+const today = new Date();
 
 if (path.endsWith("index.html")) {
   loadHabits();
