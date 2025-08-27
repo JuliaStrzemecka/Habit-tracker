@@ -1,3 +1,69 @@
+class calendar{
+  constructor(){
+    this.now = new Date();
+    this.month = this.now.getMonth();
+    this.year = this.now.getFullYear();
+  }
+
+  render(){
+  const result = document.createElement('div');
+
+  const prevBtn = document.createElement('div');
+  prevBtn.classList.add('prev-btn');
+  const nextBtn = document.createElement('div');
+  nextBtn.classList.add('next-btn');
+  const calendarMonth = document.createElement('div');
+  calendarMonth.classList.add('calendar-month');
+
+  const calendarHeader = document.createElement('div');
+  calendarHeader.classList.add('calendarHeader');
+  calendarHeader.append(prevBtn);
+  calendarHeader.append(calendarMonth);
+  calendarHeader.append(nextBtn);
+  
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const calendarDays = document.createElement('div');
+  calendarDays.classList.add('calendar-days');
+  for(let i = 0; i<7; i++){
+    var day = document.createElement('div');
+    day.classList.add('calendar-day');
+    day.innerHTML = days[i];
+
+    calendarDays.append(day);
+  }
+
+  const calendarDates = document.createElement('div');
+  const t = new Date(this.year, this.month, 1);
+  const firstDay = t.getDay()
+  console.log(firstDay);
+  for (let i = 0; i<firstDay; i++){
+    const date = document.createElement('div');
+    date.classList.add('calendar-date');
+    date.innerHTML = 'x';
+
+    calendarDates.append(date);
+  }
+   
+  const daysInMonth = new Date(this.year, this.month , 0).getDate();
+  const j = daysInMonth + firstDay - 1;
+  for(let i = firstDay-1; i<j; i++){
+      const date = document.createElement("div");
+      date.innerText = i - firstDay + 2;
+      date.dayNr = i - firstDay + 2;
+      date.classList.add("calendar-date");
+
+      calendarDates.appendChild(date);
+  }
+
+  result.append(calendarHeader);
+  result.append(calendarDays);
+  result.append(calendarDates);
+
+  document.getElementById('calendar').innerHTML = '';
+  document.getElementById('calendar').append(result);
+  }
+}
+
 async function loadHabits() {
     const res = await fetch('http://localhost:3000/habits');
     const habits = await res.json();
@@ -54,59 +120,9 @@ async function displayHabitDetails(){
 
   document.getElementById('habit-name').innerHTML = habit.name;  
 
-  //////////////////////////RENDERING CALENDAR
-  const calendar = document.getElementById("calendar");
-  
-  const prevBtn = document.createElement('div');
-  prevBtn.classList.add('prev-btn');
-  const nextBtn = document.createElement('div');
-  nextBtn.classList.add('next-btn');
-  const calendarMonth = document.createElement('div');
-  calendarMonth.classList.add('calendar-month');
+  const cal = new calendar();
+  cal.render();
 
-  const calendarHeader = document.createElement('div');
-  calendarHeader.classList.add('calendarHeader');
-  calendarHeader.append(prevBtn);
-  calendarHeader.append(calendarMonth);
-  calendarHeader.append(nextBtn);
-  
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const calendarDays = document.createElement('div');
-  calendarDays.classList.add('calendar-days');
-  for(let i = 0; i<7; i++){
-    var day = document.createElement('div');
-    day.classList.add('calendar-day');
-    day.innerHTML = days[i];
-
-    calendarDays.append(day);
-  }
-
-  const calendarDates = document.createElement('div');
-  const t = new Date(today.getFullYear(), today.getMonth(), 1);
-  const firstDay = t.getDay()
-  console.log(firstDay);
-  for (let i = 0; i<firstDay; i++){
-    const date = document.createElement('div');
-    date.classList.add('calendar-date');
-    date.innerHTML = 'x';
-
-    calendarDates.append(date);
-  }
-   
-  const daysInMonth = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
-  const j = daysInMonth + firstDay - 1;
-  for(let i = firstDay-1; i<j; i++){
-      const date = document.createElement("div");
-      date.innerText = i - firstDay + 2;
-      date.dayNr = i - firstDay + 2;
-      date.classList.add("calendar-date");
-
-      calendarDates.appendChild(date);
-  }
-
-  calendar.append(calendarHeader);
-  calendar.append(calendarDays);
-  calendar.append(calendarDates);
 }
 
 const path = window.location.pathname;
