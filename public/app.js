@@ -8,8 +8,10 @@ class calendar{
   render(){
   const result = document.createElement('div');
 
-  const prevBtn = document.createElement('div');
+  const prevBtn = document.createElement('button');
+  prevBtn.innerHTML = '<';
   prevBtn.classList.add('prev-btn');
+  prevBtn.addEventListener('click', ()=>this.goToPrevious());
   const nextBtn = document.createElement('div');
   nextBtn.classList.add('next-btn');
   const calendarMonth = document.createElement('div');
@@ -61,6 +63,17 @@ class calendar{
 
   document.getElementById('calendar').innerHTML = '';
   document.getElementById('calendar').append(result);
+  }
+
+  goToPrevious(){
+    if(this.month === 0){
+      this.year = this.year-1;
+      this.month = 11;
+    }
+    else{
+      --this.month;
+    }
+    this.render();
   }
 }
 
