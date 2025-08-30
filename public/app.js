@@ -2,19 +2,24 @@ class calendar{
   constructor(){
     this.now = new Date();
     this.month = this.now.getMonth();
+    this.monthNames = ['January', 'February', 'March', 'April', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.year = this.now.getFullYear();
   }
 
-  render(){
+  render(habitInfo){
   const result = document.createElement('div');
 
   const prevBtn = document.createElement('button');
   prevBtn.innerHTML = '<';
   prevBtn.classList.add('prev-btn');
   prevBtn.addEventListener('click', ()=>this.goToPrevious());
+
   const nextBtn = document.createElement('div');
+  nextBtn.innerHTML = '>';
   nextBtn.classList.add('next-btn');
+
   const calendarMonth = document.createElement('div');
+  calendarMonth.innerHTML = `${this.monthNames[this.month]}&nbsp;${this.year}`;
   calendarMonth.classList.add('calendar-month');
 
   const calendarHeader = document.createElement('div');
@@ -46,13 +51,18 @@ class calendar{
     calendarDates.append(date);
   }
    
-  const daysInMonth = new Date(this.year, this.month , 0).getDate();
+  const daysInMonth = new Date(this.year, this.month+1, 0).getDate();
   const j = daysInMonth + firstDay - 1;
   for(let i = firstDay-1; i<j; i++){
       const date = document.createElement("div");
       date.innerText = i - firstDay + 2;
       date.dayNr = i - firstDay + 2;
       date.classList.add("calendar-date");
+
+      const dayStr = `${this.year}-${String(this.month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      if (habitInfo.dates.includes(dayStr)) {
+      date.classList.add("done"); 
+     }
 
       calendarDates.appendChild(date);
   }
@@ -75,6 +85,17 @@ class calendar{
     }
     this.render();
   }
+
+  goToNext(){
+     if(this.month === 11){
+      this.year = this.year+1;
+      this.month = 0;
+    }
+    else{
+      ++this.month;
+    }
+    this.render();
+  }
 }
 
 async function loadHabits() {
@@ -85,12 +106,14 @@ async function loadHabits() {
     list.innerHTML = "";
 
     habits.forEach(habit => {
-        const li = document.createElement('li');
-        li.innerHTML = `<p>${habit.name}</p>`;
-        li.setAttribute('habit-id', habit.id)
-        li.addEventListener('click', () => {
+        const name = document.createElement('p');
+        name.innerHTML = habit.name;
+        name.addEventListener('click', () => {
           window.location.href = `stats.html?id=${habit.id}`;
         });
+
+        const li = document.createElement('li');
+        li.setAttribute('habit-id', habit.id)
 
         btn = document.createElement('button');
         btn.innerHTML="done";
@@ -100,6 +123,7 @@ async function loadHabits() {
           btn.disabled=false;
       }
 
+      li. appendChild(name);
         li.appendChild(btn);
 
         list.appendChild(li);
@@ -134,7 +158,7 @@ async function displayHabitDetails(){
   document.getElementById('habit-name').innerHTML = habit.name;  
 
   const cal = new calendar();
-  cal.render();
+  cal.render(habit);
 
 }
 
