@@ -2,11 +2,13 @@ class calendar{
   constructor(){
     this.now = new Date();
     this.month = this.now.getMonth();
-    this.monthNames = ['January', 'February', 'March', 'April', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.year = this.now.getFullYear();
+    this.habitInfo = null;
   }
 
   render(habitInfo){
+  this.habitInfo = habitInfo;
   const result = document.createElement('div');
 
   const prevBtn = document.createElement('button');
@@ -17,6 +19,7 @@ class calendar{
   const nextBtn = document.createElement('div');
   nextBtn.innerHTML = '>';
   nextBtn.classList.add('next-btn');
+  nextBtn.addEventListener('click', ()=>this.goToNext());
 
   const calendarMonth = document.createElement('div');
   calendarMonth.innerHTML = `${this.monthNames[this.month]}&nbsp;${this.year}`;
@@ -28,7 +31,7 @@ class calendar{
   calendarHeader.append(calendarMonth);
   calendarHeader.append(nextBtn);
   
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const calendarDays = document.createElement('div');
   calendarDays.classList.add('calendar-days');
   for(let i = 0; i<7; i++){
@@ -40,13 +43,14 @@ class calendar{
   }
 
   const calendarDates = document.createElement('div');
+  calendarDates.classList.add('calendar-dates');
   const t = new Date(this.year, this.month, 1);
   const firstDay = t.getDay()
-  console.log(firstDay);
+
   for (let i = 0; i<firstDay; i++){
     const date = document.createElement('div');
     date.classList.add('calendar-date');
-    date.innerHTML = 'x';
+    date.innerHTML = '';
 
     calendarDates.append(date);
   }
@@ -59,7 +63,8 @@ class calendar{
       date.dayNr = i - firstDay + 2;
       date.classList.add("calendar-date");
 
-      const dayStr = `${this.year}-${String(this.month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+     const dayStr = `${this.year}-${String(this.month + 1).padStart(2, '0')}-${String(date.dayNr).padStart(2, '0')}`;
+
       if (habitInfo.dates.includes(dayStr)) {
       date.classList.add("done"); 
      }
@@ -83,7 +88,7 @@ class calendar{
     else{
       --this.month;
     }
-    this.render();
+    this.render(this.habitInfo);
   }
 
   goToNext(){
@@ -94,7 +99,7 @@ class calendar{
     else{
       ++this.month;
     }
-    this.render();
+    this.render(this.habitInfo);
   }
 }
 
