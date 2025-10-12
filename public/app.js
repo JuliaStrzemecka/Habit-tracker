@@ -162,9 +162,48 @@ async function displayHabitDetails(){
 
   document.getElementById('habit-name').innerHTML = habit.name;  
 
+  const streaks = countStreaks(habit);
+  document.getElementById('longest-streak').innerHTML = streaks[0];
+  document.getElementById('current-streak').innerHTML = streaks[1];
+
   const cal = new calendar();
   cal.render(habit);
 
+}
+
+const countStreaks = (habit) =>{
+    if (!habit.dates || habit.dates.length === 0) return 0;
+
+
+    const sortedDates = [...habit.dates].sort();
+
+    let longest = 0;
+    let current = 1;
+
+    for (let i = 1; i < sortedDates.length; i++) {
+      const prev = new Date(sortedDates[i - 1]);
+      const curr = new Date(sortedDates[i]);
+
+      const diffDays = (curr - prev) / (1000 * 60 * 60 * 24); 
+
+      if (diffDays === 1) {
+        current++;
+      } else if (diffDays > 1) {
+        current = 1;
+      }
+
+      longest = Math.max(longest, current);
+    }
+
+  const today = new Date().toISOString().split('T')[0];
+  const lastDate = sortedDates[sortedDates.length - 1];
+  const diffFromToday = (new Date(today) - new Date(lastDate)) / (1000 * 60 * 60 * 24);
+
+  if (diffFromToday > 1) {
+    current = 0;
+  }
+
+    return [longest, current];
 }
 
 const path = window.location.pathname;
@@ -173,6 +212,7 @@ const today = new Date();
 
 if (path.endsWith("index.html")) {
   loadHabits();
+  document.getElementById("add-habit").addEventListener('click', addHabit);
 }
 
 if (path.endsWith("stats.html")) {
