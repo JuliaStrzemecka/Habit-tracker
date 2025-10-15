@@ -160,18 +160,20 @@ async function displayHabitDetails(){
   const res = await fetch(`http://localhost:3000/habits/${habitID}`);
   const habit = await res.json();
 
-  document.getElementById('habit-name').innerHTML = habit.name;  
+  document.getElementById('habit-n').innerHTML = habit.name;  
 
   const streaks = countStreaks(habit);
   document.getElementById('longest-streak').innerHTML = streaks[0];
   document.getElementById('current-streak').innerHTML = streaks[1];
+
+  document.getElementById('first-day').innerHTML = habit.dates[0];
 
   const cal = new calendar();
   cal.render(habit);
 
 }
 
-const countStreaks = (habit) =>{
+function countStreaks(habit){
     if (!habit.dates || habit.dates.length === 0) return 0;
 
 

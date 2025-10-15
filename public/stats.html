@@ -6,20 +6,25 @@
     <link rel="stylesheet" href="../src/style/style.css">
     <title>Document</title>
 </head>
-<body>
+<body id="stats">
     <header>
-        <h3 id="habit-name"></h3>
+        <h3 id="habit-n"></h3>
     </header>
     <main>
-        <section id="habit-streaks">
-           <h5 class="streak"> Longest streak: <span id="longest-streak"></h5>  
-           <h5 class="streak"> Current streak: <span id="current-streak"></span></h5> 
-        </section>
-        <section id="calendar-section">
-            <div id="calendar">
+            <section id="habit-streaks">
+            <h5 class="streak"> Longest streak: <span id="longest-streak"></h5>  
+            <h5 class="streak"> Current streak: <span id="current-streak"></span></h5> 
+            </section>
+            <section id="date-records">
+                <p>First day: <span id="first-day"></span></p>
+            </section>
+           
+            <section id="calendar-section">
+                <div id="calendar">
 
-            </div>
-        </section>
+                </div>
+    </section> 
+
     </main>
     <script src="app.js"></script>
 </body>
