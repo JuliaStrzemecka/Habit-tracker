@@ -118,6 +118,7 @@ async function loadHabits() {
         });
 
         const li = document.createElement('li');
+        li.classList.add('habit');
         li.setAttribute('habit-id', habit.id)
 
         btn = document.createElement('button');
@@ -192,6 +193,7 @@ function countStreaks(habit){
         current++;
       } else if (diffDays > 1) {
         current = 1;
+        longest = Math.max(longest, current);
       }
 
       longest = Math.max(longest, current);

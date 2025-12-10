@@ -7,8 +7,8 @@ app.use(express.json());
 
 // Test data
 let habits = [
-  { id: 1, name: 'Pić wodę', dates: ['2025-08-01', '2025-08-02'] },
-  { id: 2, name: 'Ćwiczyć', dates: ['2025-08-03'] }
+  { id: 1, name: 'Take pills', dates: ['2025-08-01', '2025-08-02'] },
+  { id: 2, name: 'Workout', dates: ['2025-08-03'] }
 ];
 
 // Endpoint: all habits

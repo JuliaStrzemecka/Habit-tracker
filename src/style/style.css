@@ -1,8 +1,6 @@
-/** =========================== STATS.HTML ONLY **/
-
-body#stats {
+body{
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #f6f8fc, #e8eef6);
+background: linear-gradient(178deg, rgb(232, 237, 240) 0%, rgba(116, 166, 166, 1) 94%);
   color: #333;
   min-height: 100vh;
   margin: 0;
@@ -11,7 +9,88 @@ body#stats {
   align-items: center;
   padding: 2rem 1rem;
 }
+/** =========================== INDEX.HTML ONLY **/
+#index > h3{
+color:  #5ab4be;
+text-transform: uppercase;
+font-weight: bolder;
+}
 
+#habits-list{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 80svw;
+  justify-content: center;
+  padding: 0;
+}
+.habit{
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 0.5svh 1svw;
+  margin: 1svh 0svw;
+  list-style: none;
+}
+
+.habit p{
+margin: 0;
+width: 100%;
+text-align: center;
+}
+
+.habit button{
+  margin: auto;
+  margin-top: 10px;
+  width: 100%;
+  background-color: #5ab4be;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+/*-------------------ADDING HABIT--------------*/
+#adding-habit{
+  width: 80svw;
+  height: 15svh;
+  background-color: white;
+  border-radius: 16px;
+  margin: 1svh 0svw;
+  text-align: center;
+  top: 50%;
+}
+
+#adding-habit > h3{
+  color:  #5ab4be;
+text-transform: uppercase;
+font-weight: bolder;
+}
+
+#add-habit{
+  margin-left: 3px;
+  margin: auto;
+  width: 20%;
+  background-color: #5ab4be;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+@media screen and (min-width:756px){
+  #habits-list, #adding-habit{
+    width: 30svw;
+  }
+  .habit button{
+    margin: auto;
+    margin-left: 13%;
+    width: 75%;
+  }
+}
+/** =========================== STATS.HTML ONLY **/
+@media screen and (max-width:756px){
+  body#stats {
+    scale: 0.75;
+  }
+}
 /* ---------------- HEADER ---------------- */
 header {
   text-align: center;
